@@ -7,9 +7,8 @@ app.use(express.json());
 app.get('/',(req,res,next)=>{
     res.send("Hello");
 })
-app.use('/student',studentRoutes);
-app.use('/student',studentRoutes);
-app.use('/student',studentRoutes);
+app.use('/students',studentRoutes);
+
 
 
 app.listen(3000,(err)=>{

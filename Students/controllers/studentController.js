@@ -1,28 +1,58 @@
 const db = require("../utils/db-connections");
 
 const addEntries = (req,res)=>{
-const {email,name} = req.body;
-const insertQuery = `INSERT INTO STUDENTS(email,name) values (?,?) `
-db.execute(insertQuery,[email,name],(err)=>{
+const {email,name,age} = req.body;
+const insertQuery = `INSERT INTO STUDENTS(email,name,age) values (?,?,?) `
+db.execute(insertQuery,[email,name,age],(err)=>{
     if(err){
         console.log(err.message);
         res.status(500).send(err);
- connection.end();
+ db.end();
  return;
 }
 console.log("Values has been inserted");
 res.status(200).send(`student with name ${name} successfully added`);
 })
 
-
-
 }
+
+const getStudents = (req,res)=>{
+    const getQuery = `select * from students`;
+    db.execute(getQuery,(err,result)=>{
+        if(err){
+           console.log(err.message);
+        res.status(500).send(err);
+        db.end();
+        return; 
+        }
+        console.log("values retrieved");
+        res.status(201).json(result);
+    })
+}
+
+const getStudentsByID = (req,res)=>{
+    const {id} = req.params;
+    const getQueryByID = `select * from students where id = ?`;
+    db.execute(getQueryByID,[id],(err,result)=>{
+        if(err){
+           console.log(err.message);
+        res.status(500).send(err);
+        db.end();
+        return; 
+        }
+        console.log("values retrieved");
+        res.status(201).json(result);
+    })
+}
+
+
+
 
 const updateEntry = (req,res)=>{
     const {id} = req.params;
-    const {name} = req.body;
-    const updateQury=`update students set name = ? where id=?`;
-    db.execute(updateQury,[name,id],(err,result)=>{
+    const {name,age} = req.body;
+    const updateQury=`update students set name = ?, age = ? where id=?`;
+    db.execute(updateQury,[name,age,id],(err,result)=>{
         if(err){
             console.log(err.message);
             res.status(500).send(err.message);
@@ -57,6 +87,8 @@ const deleteEntry = (req,res)=>{
 
 module.exports = {
     addEntries,
+    getStudents,
+    getStudentsByID,
     updateEntry,
     deleteEntry
 }
