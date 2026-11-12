@@ -1,5 +1,6 @@
 const Students = require("../models/students");
 const db = require("../utils/db-connections");
+const { Op } = require('sequelize');
 
 const addEntries = async (req,res)=>{
     try{
@@ -15,33 +16,38 @@ res.status(201).send(`User with name:${name} is created!`)
     }}
 
 
-const getStudents = (req,res)=>{
-    const getQuery = `select * from students`;
-    db.execute(getQuery,(err,result)=>{
-        if(err){
-           console.log(err.message);
-        res.status(500).send(err);
-        db.end();
-        return; 
-        }
-        console.log("values retrieved");
-        res.status(201).json(result);
-    })
+const getStudents = async (req,res)=>{
+    try{
+    const students = await Students.findAll();
+    if(students.length===0){
+        res.status(404).send("User not found");
+    }
+    res.status(201).json(students);
+}
+catch(err){
+    console.log(err);
+}
 }
 
-const getStudentsByID = (req,res)=>{
-    const {id} = req.params;
-    const getQueryByID = `select * from students where id = ?`;
-    db.execute(getQueryByID,[id],(err,result)=>{
-        if(err){
-           console.log(err.message);
-        res.status(500).send(err);
-        db.end();
-        return; 
+const getStudentsByID = async (req,res)=>{
+    try{ 
+const {id} = req.params;
+   const students = await Students.findAll({
+    where:{
+        id:{
+            [Op.lt]:10
         }
-        console.log("values retrieved");
-        res.status(201).json(result);
-    })
+    }
+   })
+  
+   if(students.length===0){
+    res.status(404).send("User not found");
+   }
+   res.status(200).json(students);
+
+    }catch(err){
+    res.status(500).send("Syntax error");
+    }
 }
 
 

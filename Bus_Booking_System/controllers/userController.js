@@ -1,35 +1,30 @@
 const db = require("../config/db");
+const { Users } = require("../database/createTables");
 
 
-const addEntry = (req,res)=>{
+const addEntry =async (req,res)=>{
+
+try{
     const {name,email} = req.body;
-  const insertQuery = `
-  insert into users(name,email) values (?,?)`;
+    const userEntry =await Users.create({
+          name : name,
+          email : email
+    })
+    res.status(201).send(`new user added with name ${name}`)
 
-
-db.execute(insertQuery,[name,email],(err)=>{
-    if(err){
-        console.log(err.message);
-        res.status(500).send(err);
-        db.end();
-        return;
-    }
-    console.log(`name and email has been inserted`);
-    res.status(200).send(`${name} and ${email} are inserted`)
-})
+}catch(err){
+    console.log(err);
+res.status(500).send("unable to make an entry");
+}
 }
 
-const retrievEntry = (req,res)=>{
-    const retrieveQuery = `select * from users`;
-    db.execute(retrieveQuery,(err,result)=>{
-        if(err){
-            res.status(500).send("User not found");
-            db.end();
-            return;
-        }
-        console.log("users has been retrieved");
-        res.status(200).json(result);
-    })
+const retrievEntry = async (req,res)=>{
+    try{
+        const rertriveUsers =await Users.findAll();
+        res.status(201).json(rertriveUsers);
+    }catch(err){
+       res.status(500).send("Cant get users");
+    }
 }
 
 

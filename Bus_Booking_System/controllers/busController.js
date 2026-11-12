@@ -1,39 +1,50 @@
 const db = require("../config/db");
+const { Buses } = require("../database/createTables");
+const {Op} = require('sequelize');
 
+const busEntry = async (req,res)=>{
 
-const busEntry = (req,res)=>{
-
+try{
     const {busNumber,totalSeats,availableSeats} = req.body;
-
-    
-    const busInsert = `insert into bus(busNumber,totalSeats,availableSeats) values (?,?,?);`;
-
-    db.execute(busInsert,[busNumber,totalSeats,availableSeats],(err)=>{
-        if(err){
-            console.log(err);
-            res.status(500).send(err.message);
-            db.end();
-            return;
-        }
-        console.log("Values inserted into table");
-        res.status(200).send(`${busNumber},${totalSeats} and ${availableSeats} are inserted`)
+    const addEntry = await Buses.create({
+        busNumber : busNumber,
+        totalSeats : totalSeats,
+        availableSeats : availableSeats
     })
+ res.status(201).send(`new Bus added with number ${busNumber}`);
+
+}catch(err){
+    console.log(err.message);
+ res.status(500).send("Unable to make an entry");
+}
 }
 
 
-const retrievBusEntries = (req,res)=>{
+
+  const retrievBusEntries = async (req,res)=>{
+   try{
     const {seats}  = req.params;
-    const retrieveQuery = `select * from bus where availableSeats>?`;
-    db.execute(retrieveQuery,[seats],(err,result)=>{
-        if(err){
-            res.status(404).send(err.message);
-            db.end();
-            return;
+    const retrieveBus =await Buses.findAll({
+        where:{
+            availableSeats:{
+             [Op.gt] : Number(seats)
+            }
         }
-        console.log("Values retrieved");
-        res.status(201).json(result);
-    })
+    });
+       console.log("Requested seats:", seats);
+        console.log("Retrieved buses:", retrieveBus);
+    if(retrieveBus.length===0){
+       
+       return  res.status(404).send("Bus not found");
+    }
+     res.status(201).json(retrieveBus);
+   }catch(err){
+    console.log(err);
+            res.status(500).send(err);
+
+   }
 }
+
 
 module.exports = {
     busEntry,

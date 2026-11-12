@@ -19,8 +19,13 @@ app.use('/BBS',userRouter);
 app.use('/BBS',busRouter);
 
 
-
-
-app.listen(3000,()=>{
+connection.sync()
+  .then(()=>{
+  app.listen(3000,()=>{
     console.log("server is running on localhost:3000");
 })
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
+

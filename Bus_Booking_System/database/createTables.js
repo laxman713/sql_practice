@@ -1,74 +1,90 @@
-const connection = require("../config/db");
+const sequelize = require("../config/db");
+const {DataTypes} = require('sequelize');
 
-
-const createUserTable = `
-create table if not exists users(
-id int auto_increment primary key,
-name varchar(200),
-email varchar(200)
-)`;
-
-connection.execute(createUserTable,(err)=>{
-    if(err){
-        console.log(err.message);
-        connection.end();
-        return;
+const Users = sequelize.define('users',{
+    id:{
+        type : DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey : true
+    },
+    name:{
+        type : DataTypes.STRING,
+        allowNull: false,
+    },
+    email:{
+        type : DataTypes.STRING,
+        allowNull : false,
+        unique: true
     }
-    console.log(" user table created successfully")
-});
+    
+})
 
 
-const createBusesTable = `
-create table if not exists bus(
-id int auto_increment primary key,
-busNumber int,
-totalSeats int,
-availableSeats int
-)`;
 
-connection.execute(createBusesTable,(err)=>{
-    if(err){
-        console.log(err.message);
-        connection.end();
-        return;
+const Buses = sequelize.define('buses',{
+    id:{
+    type: DataTypes.INTEGER,
+    autoIncrement : true,
+    primaryKey : true
+    },
+    busNumber:{
+        type : DataTypes.INTEGER,
+        allowNull: false
+    },
+    totalSeats:{
+        type:DataTypes.INTEGER,
+        allowNull : false
+    },
+    availableSeats : {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
-    console.log("bus table created successfully")
-});
 
-const createBookingsTable = `
-create table if not exists booking(
-id int auto_increment primary key,
-seatNumber int
-)`;
 
-connection.execute(createBookingsTable,(err)=>{
-    if(err){
-        console.log(err.message);
-        connection.end();
-        return;
+})
+
+const Booking = sequelize.define('booking',{
+    id:{
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    seatNumber:{
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
-    console.log("Booking table created successfully")
-});
+})
 
-const createPaymentsTable = `
-create table if not exists payments(
-id int auto_increment primary key,
-amountPaid int,
-paymentStatus varchar(200)
-)`;
 
-connection.execute(createPaymentsTable,(err)=>{
-    if(err){
-        console.log(err.message);
-        connection.end();
-        return;
+const Payments = sequelize.define('payments',{
+    id:{
+        type: DataTypes.INTEGER,
+        autoIncrement : true,
+        primaryKey: true
+    },
+    amountPaid: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    paymenStatus:{
+        type: DataTypes.STRING,
+        allowNull : false
     }
-    console.log("Payment table created successfully")
-});
+})
 
-module.exports = {
-    createUserTable,
-    createBookingsTable,
-    createBusesTable,
-    createPaymentsTable
+
+
+
+
+
+
+
+
+module.exports ={
+    Users,
+    Buses,
+    Booking,
+    Payments
 }
+
+

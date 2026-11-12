@@ -3,14 +3,14 @@ const sequelize = new Sequelize('student_db','root','Laxmanaliasbunny*525',{
     host : 'localhost',
     dialect : 'mysql'
 });
-
-
 (async ()=>{try{
   await sequelize.authenticate();
-  console.log("connection to the db has been created");
+  console.log("connetion is established")
 }catch(err){
-console.log(err);
+ console.log(err);
 }})();
+
+
 
 module.exports = sequelize;
 
