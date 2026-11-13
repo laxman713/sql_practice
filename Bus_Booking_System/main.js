@@ -4,9 +4,11 @@
 const express = require('express');
 const app = express();
 const connection = require("./config/db");
-const tables = require("./database/createTables");
 const userRouter = require("./routes/userRoutes");
 const busRouter = require("./routes/busRoutes");
+const bookingRouter = require("./routes/bookingRoutes");
+
+require("./database/assosiactions");
 
 app.use(express.json());
 
@@ -17,9 +19,10 @@ app.get('/',(req,res)=>{
 
 app.use('/BBS',userRouter);
 app.use('/BBS',busRouter);
+app.use('/BBS',bookingRouter);
 
 
-connection.sync()
+connection.sync({alter:true})
   .then(()=>{
   app.listen(3000,()=>{
     console.log("server is running on localhost:3000");

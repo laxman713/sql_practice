@@ -15,9 +15,12 @@ const Users = sequelize.define('users',{
         type : DataTypes.STRING,
         allowNull : false,
         unique: true
-    }
+}},
+    {
+    timestamps: false
+}
     
-})
+)
 
 
 
@@ -28,7 +31,7 @@ const Buses = sequelize.define('buses',{
     primaryKey : true
     },
     busNumber:{
-        type : DataTypes.INTEGER,
+        type : DataTypes.STRING,
         allowNull: false
     },
     totalSeats:{
@@ -38,12 +41,13 @@ const Buses = sequelize.define('buses',{
     availableSeats : {
         type: DataTypes.INTEGER,
         allowNull: false
-    }
-
-
-})
-
-const Booking = sequelize.define('booking',{
+  }},
+    {
+    timestamps: false
+}
+    
+)
+const Booking = sequelize.define('bookings',{
     id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -52,9 +56,12 @@ const Booking = sequelize.define('booking',{
     seatNumber:{
         type: DataTypes.INTEGER,
         allowNull: false
-    }
-})
-
+  }},
+    {
+    timestamps: false
+}
+    
+)
 
 const Payments = sequelize.define('payments',{
     id:{
@@ -69,9 +76,12 @@ const Payments = sequelize.define('payments',{
     paymenStatus:{
         type: DataTypes.STRING,
         allowNull : false
-    }
-})
-
+}},
+    {
+    timestamps: false
+}
+    
+)
 
 
 
