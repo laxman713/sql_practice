@@ -1,0 +1,14 @@
+.rating {
+    display: flex;
+    gap: 8px;
+}
+
+.star {
+    font-size: 35px;
+    color: gray;
+    cursor: pointer;
+}
+
+.star.active {
+    color: gold;
+}

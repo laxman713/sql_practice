@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="addReview.css"/>
+</head>
+<body>
+    <form id="formId">
+     <label for="companyName">Company Name: </label>
+     <input type="text" name="companyName" id="companyName"/>
+    <br>
+      <label for="pros">Pros: </label>
+     <input type="text" name="pros" id="pros"/>
+     <br>
+    <label for="cons">Cons: </label>
+     <input type="text" name="cons" id="cons"/>
+    <br>
+    <label for="star">Ratings: </label>
+    <div class="rating" style="display: inline-block;">
+    <span class="star" data-value="1">★</span>
+    <span class="star" data-value="2">★</span>
+    <span class="star" data-value="3">★</span>
+    <span class="star" data-value="4">★</span>
+    <span class="star" data-value="5">★</span>
+   </div>
+   <br>
+   <p id="ratingValue">Rating: 0/5</p>
+  <button type="submit">Add review</button>
+  
+    </form>
+    <script src="./addReview.js"></script>
+</body>
+</html>
