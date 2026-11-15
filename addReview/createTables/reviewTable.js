@@ -7,7 +7,8 @@ const Review = sequelize.define('review',{
     id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     pros:{
         type:DataTypes.STRING,
@@ -16,9 +17,16 @@ const Review = sequelize.define('review',{
     cons:{
         type:DataTypes.STRING,
         allowNull:false
+    },
+    rating:{
+        type:DataTypes.INTEGER,
+        allowNull: false
     }
     
+},
+{
+    timestamps:false
 })
 
 module.exports = 
-    Company
+    Review
