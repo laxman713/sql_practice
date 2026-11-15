@@ -16,16 +16,19 @@ const reviews = await axios.get(`http://localhost:3000/companies/getCompany/${da
     reviewsList.innerHTML = "";
     res.reviews.forEach((review,index)=>{
         const div = document.createElement("div");
+        console.log(res);
         div.innerHTML = `
         <h3>Review ${index+1}</h3>
         <p>Pros: ${review.pros}</p>
                 <p>Cons: ${review.cons}</p>
-<br><br><br>
+    <p>
+        <span style="color: gold;">${"★".repeat(review.rating)}</span>
+        <span style="color: gray;">${"★".repeat(5 - review.rating)}</span>
+    </p><hr>
 
         `
-        
-    
 reviewsList.appendChild(div);
+searchBox.value="";
 
    })}
    catch(err){
@@ -38,7 +41,7 @@ reviewsList.appendChild(div);
 
     reviewsList.innerHTML = "";
     console.log(err);
-}  console.log(err)
+}  
    }
     
     )

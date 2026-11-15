@@ -31,6 +31,10 @@ form.addEventListener('submit', async (e) => {
     const c_nameValue = c_name.value;
     const prosValue = pros.value;
     const consValue = cons.value;
+    if(c_nameValue.trim()==""||prosValue.trim()==""||consValue.trim()==""||rating===0){
+     window.alert("Emprty values are not allowed");
+     return;
+    }
 
     try {
         const response = await axios.post('http://localhost:3000/companies/addCompany', {
@@ -53,6 +57,9 @@ const reviewResponse = await axios.post(
 
 );
 console.log(reviewResponse.data);
+c_name.value = "";
+pros.value = "";
+cons.value = "";
 
     }
 catch (err) {

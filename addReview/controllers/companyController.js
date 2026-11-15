@@ -50,7 +50,8 @@ const getCompany = async (req,res)=>{
             reviews:company.reviews.map((review)=>{
                 return{
                     pros : review.pros,
-                    cons: review.cons
+                    cons: review.cons,
+                    rating: review.rating
                 };
             }),
             
